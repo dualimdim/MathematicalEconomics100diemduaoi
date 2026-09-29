@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECON 3302 - Mathematical Economics Master Suite</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX for High-Performance Math Formula Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body);"></script>
+  <style>
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+    .prose-math p { margin-bottom: 0.85rem; line-height: 1.7; }
+    .prose-math ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 0.85rem; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="bg-slate-800/95 backdrop-blur border-b border-slate-700 sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-400 flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-indigo-500/30">
+        &Sigma;
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+          ECON 3302 <span class="text-xs px-2 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 rounded-full font-mono">v2.1 Full</span>
+        </h1>
+        <p class="text-xs text-slate-400">Mathematical Economics &bull; Interactive Knowledge Suite</p>
+      </div>
+    </div>
+
+    <!-- GLOBAL SEARCH BAR (FIXED: PADDING & KBD BADGE OVERLAP) -->
+    <div class="relative flex-1 max-w-lg mx-2">
+      <input type="text" id="globalSearch" placeholder="Search concepts, formulas, real-world cases (e.g. CEBA, Euler, Box)..." 
+             class="w-full bg-slate-950/80 border border-slate-700 rounded-lg pl-4 pr-28 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition shadow-inner" />
+      <div class="absolute right-3 top-2.5 flex items-center gap-1 pointer-events-none select-none">
+        <kbd class="px-1.5 py-0.5 text-[10px] font-semibold text-slate-400 bg-slate-800 border border-slate-700 rounded shadow">Ctrl</kbd>
+        <span class="text-slate-500 text-xs">+</span>
+        <kbd class="px-1.5 py-0.5 text-[10px] font-semibold text-slate-400 bg-slate-800 border border-slate-700 rounded shadow">K</kbd>
+      </div>
+    </div>
+
+    <!-- CHAPTER SWITCHER -->
+    <div class="flex items-center space-x-2">
+      <label for="chapterSelect" class="text-xs text-slate-400 font-medium">Lecture:</label>
+      <select id="chapterSelect" class="bg-slate-950 border border-slate-700 text-sm text-slate-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+        <option value="1">Lecture 1: Foundations, Sequences, Series & Financial Economics</option>
+        <option value="2">Lecture 2.1: Economic Models, Functions & Variables</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- MAIN TAB NAVIGATION -->
+  <nav class="bg-slate-800 border-b border-slate-700 px-6 flex space-x-2 overflow-x-auto">
+    <button onclick="switchTab('studyGuide')" id="tab-studyGuide" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-indigo-500 text-indigo-400 flex items-center gap-2 whitespace-nowrap">
+      <span>📖</span> Full Study Guide (Zero Truncation)
+    </button>
+    <button onclick="switchTab('grapher')" id="tab-grapher" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <span>📈</span> Interactive Grapher
+    </button>
+    <button onclick="switchTab('exercises')" id="tab-exercises" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <span>✏️</span> Slide Exercises & Math Proofs
+    </button>
+    <button onclick="switchTab('quizzes')" id="tab-quizzes" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <span>🎯</span> Practice Quiz Sets
+    </button>
+    <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <span>🃏</span> 3D Flashcards
+    </button>
+    <button onclick="switchTab('cheatsheet')" id="tab-cheatsheet" class="tab-btn px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+      <span>⚡</span> Summary Cheat-Sheet
+    </button>
+  </nav>
+
+  <!-- CONTENT CONTAINER -->
+  <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
+
+    <!-- 1. FULL STUDY GUIDE -->
+    <section id="pane-studyGuide" class="tab-pane space-y-6">
+      <div id="studyGuideContent" class="space-y-8 prose-math">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- 2. INTERACTIVE GRAPHER -->
+    <section id="pane-grapher" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+              <span>📈</span> Mathematical Simulation: Continuous Compounding & Cost Structures
+            </h2>
+            <p class="text-xs text-slate-400">Dynamically visualize annuity discounting limits, continuous Euler convergence, or polynomial cost curves.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="toggleGraphMode('pv')" id="btnGraphPV" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition">Annuity & Euler Discounting</button>
+            <button onclick="toggleGraphMode('cost')" id="btnGraphCost" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 transition">Quadratic Cost C(Q)</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <!-- Canvas Graph -->
+          <div class="lg:col-span-3 bg-slate-950 rounded-xl p-4 border border-slate-700 relative">
+            <canvas id="mathCanvas" width="800" height="420" class="w-full h-auto block"></canvas>
+            <div id="graphLegend" class="absolute top-6 right-6 bg-slate-900/90 border border-slate-700 backdrop-blur rounded-lg p-3 text-xs space-y-1.5 shadow-md">
+              <!-- Legend dynamic -->
+            </div>
+          </div>
+
+          <!-- Controls Panel -->
+          <div class="bg-slate-900 rounded-xl p-5 border border-slate-700 flex flex-col justify-between space-y-4">
+            <div id="pvControls" class="space-y-4">
+              <div>
+                <label class="text-xs font-semibold text-slate-300 flex justify-between">
+                  <span>Periodic Payment (V):</span>
+                  <span id="dispV" class="text-emerald-400 font-mono font-bold">$8,000</span>
+                </label>
+                <input type="range" id="sliderV" min="1000" max="25000" step="500" value="8000" class="w-full mt-1 accent-indigo-500" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-300 flex justify-between">
+                  <span>Discount Rate (r):</span>
+                  <span id="dispR" class="text-indigo-400 font-mono font-bold">8.0%</span>
+                </label>
+                <input type="range" id="sliderR" min="0.01" max="0.25" step="0.005" value="0.08" class="w-full mt-1 accent-indigo-500" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-300 flex justify-between">
+                  <span>Maturity Years (T):</span>
+                  <span id="dispT" class="text-amber-400 font-mono font-bold">50 yrs</span>
+                </label>
+                <input type="range" id="sliderT" min="5" max="100" step="1" value="50" class="w-full mt-1 accent-indigo-500" />
+              </div>
+
+              <div class="pt-4 border-t border-slate-800 space-y-2.5 text-xs bg-slate-950/60 p-3 rounded-lg border border-slate-800/80">
+                <div class="flex justify-between">
+                  <span class="text-slate-400">Finite Stream PV (PV_T):</span>
+                  <span id="calcPV_T" class="font-mono text-emerald-400 font-bold">$97,867.88</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400">Perpetuity Limit (V/r):</span>
+                  <span id="calcPV_Inf" class="font-mono text-indigo-400 font-bold">$100,000.00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400">Captured Ratio:</span>
+                  <span id="calcRatio" class="font-mono text-amber-300 font-bold">97.87%</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="costControls" class="space-y-4 hidden">
+              <div>
+                <label class="text-xs font-semibold text-slate-300 flex justify-between">
+                  <span>Fixed Cost (a₀):</span>
+                  <span id="dispFC" class="text-emerald-400 font-mono font-bold">75</span>
+                </label>
+                <input type="range" id="sliderFC" min="0" max="200" step="5" value="75" class="w-full mt-1 accent-indigo-500" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-300 flex justify-between">
+                  <span>Quadratic Parameter (a₂):</span>
+                  <span id="dispCurv" class="text-indigo-400 font-mono font-bold">10</span>
+                </label>
+                <input type="range" id="sliderCurv" min="1" max="30" step="1" value="10" class="w-full mt-1 accent-indigo-500" />
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Equation: \(C(Q) = a_0 + a_2 Q^2\). Rising Marginal Cost \(MC = 2 a_2 Q\) models diminishing variable returns.
+              </p>
+            </div>
+            
+            <button onclick="resetGraphParams()" class="w-full py-2 bg-slate-800 hover:bg-slate-750 text-xs font-semibold rounded-lg border border-slate-700 text-slate-300 transition">
+              Reset Simulator Parameters
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SLIDE EXERCISES & PROOFS -->
+    <section id="pane-exercises" class="tab-pane hidden space-y-6">
+      <div id="exerciseList" class="space-y-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- 4. PRACTICE QUIZ SETS -->
+    <section id="pane-quizzes" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-slate-700">
+          <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+              <span>🎯</span> Multi-Set Diagnostic Quiz Engine
+            </h2>
+            <p class="text-xs text-slate-400">Assess theoretical definitions, limits, compounding derivations, and real-world empirical applications.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <select id="quizSetSelect" onchange="loadQuizSet(this.value)" class="bg-slate-950 border border-slate-700 text-sm text-slate-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <!-- Dynamic sets -->
+            </select>
+            <button onclick="nextQuizSet()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition">
+              Next Set &rarr;
+            </button>
+          </div>
+        </div>
+
+        <div id="quizContainer" class="space-y-6">
+          <!-- Questions dynamic -->
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-700 flex justify-between items-center">
+          <div id="quizScoreBox" class="text-sm font-semibold text-slate-300">
+            Score: <span id="quizScore" class="text-emerald-400 font-bold text-base">0</span> / <span id="quizTotal">0</span>
+          </div>
+          <button onclick="resetCurrentQuiz()" class="px-4 py-2 bg-slate-700 hover:bg-slate-650 text-xs font-semibold rounded-lg text-white transition">
+            Reset Current Set
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 3D FLASHCARDS -->
+    <section id="pane-flashcards" class="tab-pane hidden space-y-6">
+      <div class="flex flex-col items-center justify-center space-y-6">
+        <div class="flex justify-between items-center w-full max-w-xl text-xs text-slate-400 px-2">
+          <span>Card <span id="cardIndex" class="font-bold text-slate-200">1</span> of <span id="cardTotal">6</span></span>
+          <button onclick="shuffleFlashcards()" class="hover:text-indigo-400 flex items-center gap-1 font-semibold transition">
+            <span>🔀</span> Shuffle Deck
+          </button>
+        </div>
+
+        <!-- 3D Card Container -->
+        <div class="perspective-1000 w-full max-w-xl h-80 cursor-pointer" onclick="flipCard()">
+          <div id="flashcardInner" class="transform-style-3d relative w-full h-full rounded-2xl shadow-2xl transition-transform duration-500 bg-slate-800 border border-slate-700 flex items-center justify-center p-8 text-center select-none">
+            <!-- Front -->
+            <div id="cardFront" class="backface-hidden absolute inset-0 flex flex-col justify-center items-center p-8">
+              <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold mb-3">Key Concept (Click to flip)</span>
+              <h3 id="cardTerm" class="text-2xl font-bold text-white mb-2">Continuous Compounding</h3>
+              <p class="text-xs text-slate-400 mt-2">Click anywhere to flip and review formal analytical formulation</p>
+            </div>
+            <!-- Back -->
+            <div id="cardBack" class="backface-hidden rotate-y-180 absolute inset-0 flex flex-col justify-center items-center p-8 bg-slate-850">
+              <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold mb-3">Analytical Definition & Interpretation</span>
+              <div id="cardDef" class="text-sm text-slate-200 leading-relaxed overflow-y-auto max-h-56"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center space-x-4">
+          <button onclick="prevCard()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-white font-semibold text-xs transition">&larr; Prev</button>
+          <button onclick="flipCard()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-semibold text-xs shadow-lg shadow-indigo-600/30 transition">Flip Card</button>
+          <button onclick="nextCard()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-white font-semibold text-xs transition">Next &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SUMMARY CHEAT-SHEET -->
+    <section id="pane-cheatsheet" class="tab-pane hidden space-y-6">
+      <div id="cheatsheetContent" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIC & COMPLETE ECON 3302 DATA STORE -->
+  <script>
+    // --- 1. COURSE DATA STORE (ZERO TRUNCATION - COMPLETE SLIDE COVERAGE) ---
+    const courseData = {
+      chapters: [
+        {
+          id: 1,
+          title: "Lecture 1: Mathematical Foundations, Sequences, Series & Financial Economics",
+          studyGuide: `
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 mb-8">
+              <div class="p-4 bg-indigo-950/40 border border-indigo-500/40 rounded-xl mb-6">
+                <p class="text-sm italic text-indigo-200">
+                  "Tell me, and I will forget. Involve me, and I will remember. Let me do, and I will understand." 
+                  <span class="block mt-1 text-xs text-right font-semibold text-indigo-400">&mdash; Confucius and Benjamin Franklin</span>
+                </p>
+                <p class="text-xs text-slate-300 mt-2"><strong>Pedagogical Core:</strong> ECON 3302 emphasizes rigorous mathematical formulation directly married to pressing, real-world macroeconomic and financial dynamics.</p>
+              </div>
+
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">1. Nature & Methodology of Mathematical Economics</h2>
+              <p class="text-slate-300 mb-3"><strong>Mathematical Economics</strong> is not a separate branch of economics (like Labor, Trade, or Public Finance); rather, it is an <em>analytical approach</em> and formal toolkit applied across all economic disciplines. Economists translate verbal theories into symbolic systems to leverage proven mathematical theorems for deductive reasoning.</p>
+              
+              <h3 class="text-base font-semibold text-emerald-400 mt-4 mb-2">Mathematical vs. Non-Mathematical (Literary) Economics:</h3>
+              <ul class="text-slate-300 space-y-2 text-sm">
+                <li><strong>Literary Economics:</strong> Relies on words and qualitative assertions. Example: <em>"Bank of Canada raises policy interest rates &rarr; Buyers can borrow less &rarr; Housing prices should fall."</em> This provides quick intuition (news commentary), but lacks precision regarding interaction magnitudes, lags, or countervailing factors.</li>
+                <li><strong>Mathematical Economics:</strong> Formulates relationships explicitly via multivariate functions:
+                  <div class="my-2 p-3 bg-slate-950 rounded-lg font-mono text-xs text-indigo-300 overflow-x-auto">
+                    \\(\\text{Housing Price} = f(\\text{BoC Policy Rate}, \\text{\\# New Projects}, \\text{\\# Active Listings}, \\text{Pop Growth}, \\dots)\\)
+                  </div>
+                  It enables explicit deduction of comparative statics and boundary conditions.
+                </li>
+              </ul>
+
+              <h3 class="text-base font-semibold text-amber-400 mt-5 mb-2">Advantages:</h3>
+              <ul class="text-slate-300 space-y-2 text-sm">
+                <li><strong>Conciseness & Precision:</strong> Symbols prevent semantic ambiguities and flawed verbal logic.</li>
+                <li><strong>Explicit Statement of Assumptions:</strong> Mathematical theorems require explicit prerequisites. For instance, assuming consumer utility \\(U(x_1, x_2) = x_1^{1/2} x_2^{1/2}\\), we state:
+                  \\[\\frac{\\partial U}{\\partial x_1} = \\frac{1}{2}x_1^{-1/2}x_2^{1/2} > 0 \\quad \\text{and} \\quad \\frac{\\partial^2 U}{\\partial x_1^2} = -\\frac{1}{4}x_1^{-3/2}x_2^{1/2} < 0\\]
+                  This formally encodes non-satiation alongside diminishing marginal returns (guarding against unrealistic assumptions, e.g., drinking infinite coffee).
+                </li>
+                <li><strong>Deductive Power:</strong> Handles \\(n\\)-variable simultaneous equilibria where verbal reasoning fails.</li>
+              </ul>
+
+              <h3 class="text-base font-semibold text-rose-400 mt-5 mb-2">Criticisms & Methodological Frontiers:</h3>
+              <ul class="text-slate-300 space-y-2 text-sm">
+                <li><strong>High Abstraction & Unrealistic Assumptions:</strong> Models isolate essential factors, producing stylized representations that can fail under systemic shocks.</li>
+                <li><strong>General Equilibrium vs. Big Data / All Data:</strong> Can theoretical models capture an entire economy? The rise of Big Data tracking real-time transactions offers an alternative: direct empirical observation without imposing stylized utility functions.</li>
+              </ul>
+
+              <h3 class="text-base font-semibold text-sky-400 mt-5 mb-2">Mathematical Economics vs. Econometrics:</h3>
+              <p class="text-slate-300 text-sm"><strong>Mathematical Economics</strong> addresses <em>purely theoretical modeling</em> and algebraic derivations of equilibrium without concern for data noise. <strong>Econometrics</strong> applies statistical inference to <em>estimate unknown parameters</em> and test hypotheses using empirical data:</p>
+              <div class="my-2 p-3 bg-slate-950 rounded-lg font-mono text-xs text-sky-300 overflow-x-auto">
+                \\(\\text{Housing Price} = \\alpha \\cdot \\text{PolicyRate} + \\beta \\cdot \\text{CPI} + \\tau \\cdot \\text{PopGrowth} + \\epsilon\\)
+              </div>
+              <p class="text-slate-400 text-xs">Mathematical economics specifies structural relations; econometrics estimates parameters \\((\\alpha, \\beta, \\tau)\\) and tests error terms \\(\\epsilon\\).</p>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 mb-8">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">2. Sequences & Convergence (Formal Theory)</h2>
+              <p class="text-slate-300 text-sm">A <strong>sequence</strong> is a function mapping positive integers to real numbers: \\(f(n)\\) for \\(n = 1, 2, 3, \\dots\\)</p>
+              
+              <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 my-4">
+                <h4 class="text-sm font-bold text-emerald-400 mb-1">Formal \\(\\epsilon-N\\) Limit Definition:</h4>
+                <p class="text-slate-300 text-sm">A sequence \\(f(n)\\) converges to limit \\(L\\) (written \\(\\lim_{n \\to \\infty} f(n) = L\\)) if, for any \\(\\epsilon > 0\\), however small, there exists an integer \\(N\\) such that:</p>
+                \\[|f(n) - L| < \\epsilon \\quad \\forall \\; n > N\\]
+                <p class="text-slate-400 text-xs mt-1">If no such finite \\(L\\) exists, the sequence is <strong>divergent</strong>.</p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wide">Convergent Sequence</span>
+                  <p class="font-mono text-sm text-slate-200 mt-1">\\(f(n) = \\frac{1}{n} = \\{1, \\frac{1}{2}, \\frac{1}{3}, \\frac{1}{4}, \\dots\\}\\)</p>
+                  <p class="text-xs text-slate-400 mt-2">\\(\\lim_{n \\to \\infty} \\frac{1}{n} = 0\\). Terms cluster arbitrarily close to 0 as \\(n\\) grows.</p>
+                </div>
+                <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                  <span class="text-xs font-bold text-rose-400 uppercase tracking-wide">Divergent Sequence</span>
+                  <p class="font-mono text-sm text-slate-200 mt-1">\\(f(n) = 2n = \\{2, 4, 6, 8, 10, \\dots\\}\\)</p>
+                  <p class="text-xs text-slate-400 mt-2">\\(\\lim_{n \\to \\infty} 2n = \\infty\\). Terms expand monotonically without bound.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 mb-8">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">3. Present Value & Continuous Compounding Derivation</h2>
+              <p class="text-slate-300 text-sm">Present value discounting establishes that a dollar today is worth more than a dollar tomorrow due to its earning capacity: \\(PV = \\frac{V}{1+r}\\), because investing \\(PV\\) yields \\(PV(1+r) = V\\).</p>
+              
+              <h3 class="text-base font-semibold text-emerald-400 mt-4 mb-2">Derivation of Continuous Compounding (Euler's Constant \\(e\\)):</h3>
+              <p class="text-slate-300 text-sm">With compounding frequency \\(n\\) times per year at annual nominal rate \\(r\\), the future value after 1 year is:</p>
+              \\[V = P\\left(1 + \\frac{r}{n}\\right)^n\\]
+              <p class="text-slate-300 text-sm">Let \\(s = \\frac{n}{r}\\), which implies \\(\\frac{r}{n} = \\frac{1}{s}\\) and \\(n = sr\\). As compounding frequency becomes instantaneous (\\(n \\to \\infty\\)), \\(s \\to \\infty\\):</p>
+              \\[\\lim_{n \\to \\infty} \\left(1 + \\frac{r}{n}\\right)^n = \\lim_{s \\to \\infty} \\left(1 + \\frac{1}{s}\\right)^{sr} = \\left[\\lim_{s \\to \\infty} \\left(1 + \\frac{1}{s}\\right)^s\\right]^r = e^r\\]
+              <p class="text-slate-300 text-sm">Over \\(t\\) continuous years, the dynamic future and present value formulations are:</p>
+              \\[V(t) = P e^{rt} \\quad \\Longleftrightarrow \\quad PV(t) = V e^{-rt}\\]
+              
+              <div class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+                <span class="font-bold text-amber-300">Empirical Comparison ($1,000 at 12% for 1 Year):</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono mt-2">
+                  <div class="bg-slate-900 p-2 rounded">Annual (n=1): $1,120.00</div>
+                  <div class="bg-slate-900 p-2 rounded">Semi-Annual (n=2): $1,123.60</div>
+                  <div class="bg-slate-900 p-2 rounded">Monthly (n=12): $1,126.82</div>
+                  <div class="bg-indigo-950 border border-indigo-500 p-2 rounded text-indigo-300 font-bold">Continuous: $1,127.50</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">4. Series Mechanics, Annuities & Real-World Macro Dynamics</h2>
+              <p class="text-slate-300 text-sm">A <strong>series</strong> \\(s_n\\) represents the sum of the first \\(n\\) terms of a sequence: \\(s_n = \\sum_{t=1}^n a_t\\).</p>
+              
+              <h3 class="text-sm font-bold text-amber-400 mt-4 mb-1">A. Telescoping Series:</h3>
+              <p class="text-slate-300 text-xs">For \\(a_t = \\frac{1}{t(t+1)} = \\frac{1}{t} - \\frac{1}{t+1}\\), intermediate terms cancel:</p>
+              \\[s_n = \\sum_{t=1}^n \\left(\\frac{1}{t} - \\frac{1}{t+1}\\right) = \\left(1 - \\frac{1}{2}\\right) + \\left(\\frac{1}{2} - \\frac{1}{3}\\right) + \\dots + \\left(\\frac{1}{n} - \\frac{1}{n+1}\\right) = 1 - \\frac{1}{n+1}\\]
+              <p class="text-slate-400 text-xs">Taking the limit yields \\(\\lim_{n \\to \\infty} s_n = 1\\).</p>
+
+              <h3 class="text-sm font-bold text-sky-400 mt-4 mb-1">B. Ratio Test (D'Alembert's Criterion):</h3>
+              <p class="text-slate-300 text-xs">For \\(L = \\lim_{n \\to \\infty} \\left|\\frac{a_{n+1}}{a_n}\\right|\\):</p>
+              <ul class="text-xs text-slate-300 space-y-1">
+                <li>\\(L < 1\\): Series <strong>converges</strong>.</li>
+                <li>\\(L > 1\\): Series <strong>diverges</strong>.</li>
+                <li>\\(L = 1\\): Inconclusive (e.g. Telescoping series above has \\(L=1\\) but converges).</li>
+              </ul>
+
+              <h3 class="text-sm font-bold text-emerald-400 mt-4 mb-1">C. Geometric Series Sum Proof:</h3>
+              <p class="text-slate-300 text-xs">Let \\(s_n = a + a\\rho + a\\rho^2 + \\dots + a\\rho^{n-1}\\). Multiply by \\(\\rho\\):</p>
+              \\[\\rho s_n = a\\rho + a\\rho^2 + \\dots + a\\rho^n\\]
+              <p class="text-slate-300 text-xs">Subtracting the second equation from the first:</p>
+              \\[s_n(1 - \\rho) = a(1 - \\rho^n) \\implies s_n = a \\frac{1 - \\rho^n}{1 - \\rho}\\]
+              <p class="text-slate-300 text-xs">If \\(|\\rho| < 1\\), \\(\\lim_{n \\to \\infty} \\rho^n = 0\\), establishing the infinite sum \\(\\lim_{n \\to \\infty} s_n = \\frac{a}{1 - \\rho}\\).</p>
+
+              <h3 class="text-sm font-bold text-indigo-400 mt-4 mb-1">D. Stream of Payments (Annuity) & Perpetual Limit:</h3>
+              <p class="text-slate-300 text-xs">For periodic payments of \\(V\\) over \\(T\\) years at rate \\(r\\):</p>
+              \\[PV_T = \\sum_{t=1}^T \\frac{V}{(1+r)^t} = \\frac{V}{r}\\left[1 - \\frac{1}{(1+r)^T}\\right] \\quad \\Longrightarrow \\quad PV_\\infty = \\lim_{T \\to \\infty} PV_T = \\frac{V}{r}\\]
+
+              <h3 class="text-sm font-bold text-purple-400 mt-4 mb-1">E. IRR, Cap Rates & Financial Contraction:</h3>
+              <p class="text-slate-300 text-xs"><strong>IRR:</strong> The rate \\(r^*\\) equating project benefits with costs: \\(PV(r^*)_{Benefits} = PV(r^*)_{Costs}\\).</p>
+              <p class="text-slate-300 text-xs mt-1"><strong>Real Estate Cap Rate:</strong> \\(\\text{Cap Rate} = \\frac{\\text{Net Operating Income (NOI)}}{\\text{Market Value or Acquisition Cost}} \\times 100\\).</p>
+              <div class="mt-3 p-3 bg-slate-950 rounded-lg border border-slate-800 text-xs space-y-1 text-slate-300">
+                <span class="font-bold text-rose-400">Macroeconomic Case Applications (from lecture slides):</span>
+                <p>&bull; <strong>High Financing Cost Shocks:</strong> Repeated Bank of Canada rate hikes cause \\(PV_{Costs} > PV_{Benefits}\\), prompting developers to cancel housing projects (e.g. 22% of Canadian builders cancelling plans in 2023).</p>
+                <p>&bull; <strong>Corporate Restructuring & Layoffs:</strong> Surge in financing costs drove the 2023 tech workforce downsizing (&gt;169,000 tech roles cut, including Amazon, Alphabet, Microsoft, Meta).</p>
+                <p>&bull; <strong>Small Business Distress & CEBA:</strong> The Canada Emergency Business Account deadline extension to January 2024 to avert widespread bankruptcies.</p>
+                <p>&bull; <strong>63-Year Mortgage Amortization:</strong> Canadian housing bubble dynamic where borrowers pay overwhelmingly interest (e.g. $74,328 interest vs $1,603 principal paid), extending loan amortizations over multi-generational spans.</p>
+              </div>
+            </div>
+          `
+        },
+        {
+          id: 2,
+          title: "Lecture 2.1: Economic Models, Functions & Variables",
+          studyGuide: `
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 mb-8">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">1. Nature & Ingredients of Economic Models</h2>
+              <p class="text-slate-300 text-sm mb-3">Economic models are deliberately simplified mathematical representations designed to abstract away real-world complexity while preserving the core causal mechanisms under study.</p>
+              
+              <div class="p-3 bg-slate-950 border-l-4 border-indigo-500 rounded-r-xl my-3 text-xs text-slate-300">
+                <em>"All models are wrong, but some are useful."</em> &mdash; British statistician George E. P. Box.
+              </div>
+
+              <h3 class="text-base font-semibold text-emerald-400 mt-4 mb-2">The Four Foundational Ingredients:</h3>
+              <ol class="text-slate-300 space-y-2 list-decimal ml-5 text-sm">
+                <li><strong>Analytical Assumptions:</strong> Structural restrictions on economic behavior. Example: For utility \\(U(x_1, x_2) = x_1^{1/2} x_2^{1/2}\\), assuming positive marginal utility (\\(U_1 > 0\\)) and diminishing returns (\\(U_{11} < 0\\)).</li>
+                <li><strong>System of Mathematical Equations:</strong> Functional relationships governing interrelated phenomena.</li>
+                <li><strong>Variables:</strong> Magnitudes capable of taking diverse numeric values, designated symbolically (e.g., \\(P, Q, Y, C\\)).</li>
+                <li><strong>Derived Conclusions:</strong> Optimal solutions extracted through mathematical operations (e.g., market-clearing price \\(P^*\\), profit-maximizing quantity \\(Q^*\\)).</li>
+              </ol>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 mb-8">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">2. Variables, Parameters & Exogeneity</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                  <h4 class="font-bold text-indigo-300 text-sm mb-1">Endogenous Variables:</h4>
+                  <p class="text-xs text-slate-300">Variables whose equilibrium values are determined <em>internally within</em> the model (e.g., equilibrium price \\(P^*\\), firm output \\(Q^*\\)).</p>
+                </div>
+                <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                  <h4 class="font-bold text-emerald-300 text-sm mb-1">Exogenous Variables:</h4>
+                  <p class="text-xs text-slate-300">Variables determined by forces outside the model and accepted as given data (e.g., rainfall, foreign policy rates). Conventionally subscripted as \\(P_0\\).</p>
+                </div>
+              </div>
+              
+              <div class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+                <span class="font-bold text-amber-300">Contextual Relativity of Exogeneity:</span>
+                <p class="text-slate-300 mt-1">Wheat price \\(P\\) is <strong>endogenous</strong> in a market equilibrium model of wheat, but <strong>exogenous</strong> (\\(P_0\\)) in an individual consumer's grocery expenditure model.</p>
+              </div>
+
+              <div class="mt-4 p-4 bg-slate-900 rounded-xl border border-slate-700 text-xs">
+                <h4 class="font-bold text-purple-300 text-sm mb-1">Parametric Constants (Parameters):</h4>
+                <p class="text-slate-300">When joined with a variable (e.g., \\(7P\\)), a fixed magnitude is a coefficient. When parameterized as \\(\\alpha P\\) or \\(a P\\), \\(\\alpha\\) and \\(a\\) are <strong>parameters</strong>. Parameters remain fixed within a given scenario but can vary across scenarios; they are treated as exogenous inputs.</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 mb-8">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">3. The Three Foundational Equation Types</h2>
+              <div class="space-y-4">
+                <div class="p-4 bg-slate-900 rounded-xl border-l-4 border-indigo-500">
+                  <h4 class="font-bold text-white text-sm">1. Definitional Equations (Identities)</h4>
+                  <p class="text-xs text-slate-300 mt-1">Set an identity between two expressions sharing identical meaning by definition:</p>
+                  \\[\\pi \\equiv R - C \\quad (\\text{Profit} = \\text{Total Revenue} - \\text{Total Cost})\\]
+                </div>
+
+                <div class="p-4 bg-slate-900 rounded-xl border-l-4 border-emerald-500">
+                  <h4 class="font-bold text-white text-sm">2. Behavioural Equations</h4>
+                  <p class="text-xs text-slate-300 mt-1">Specify how a variable reacts to shifts in other variables (human or technological reactions):</p>
+                  <ul class="text-xs text-slate-300 space-y-1 mt-2">
+                    <li>Aggregate Consumption: \\(C = a + bY\\) with \\(a > 0\\) (autonomous consumption) and \\(0 < b \\le 1\\) (marginal propensity to consume).</li>
+                    <li>Quadratic Cost Function: \\(C = 75 + 10Q^2\\) (reflects diminishing returns to scale).</li>
+                  </ul>
+                </div>
+
+                <div class="p-4 bg-slate-900 rounded-xl border-l-4 border-amber-500">
+                  <h4 class="font-bold text-white text-sm">3. Conditional Equations (Equilibrium & Optimization Conditions)</h4>
+                  <p class="text-xs text-slate-300 mt-1">State requirements that must be met to reach equilibrium or an optimal choice:</p>
+                  <ul class="text-xs text-slate-300 space-y-1 mt-2">
+                    <li>Market Equilibrium: \\(Q_d = Q_s\\) (determines market clearing \\(P^*\\))</li>
+                    <li>Capital Market Clearing: \\(I = S\\) (Investment = Savings, solving for interest rate \\(i^*\\))</li>
+                    <li>Firm Optimization: \\(MC = MR\\) (Marginal Cost = Marginal Revenue)</li>
+                    <li>Consumer Optimization: \\(MU_1 / P_1 = MU_2 / P_2\\)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6">
+              <h2 class="text-2xl font-bold text-indigo-400 mb-4 border-b border-slate-700 pb-2">4. General Function Forms & Asset Price Modeling</h2>
+              <p class="text-slate-300 text-xs">A function maps independent exogenous variables \\(X\\) to dependent endogenous variables \\(Y\\): \\(Y = f(X)\\). In implicit form, any complete model is expressed as:</p>
+              \\[f(Y, X; \\theta) = 0\\]
+              <p class="text-slate-300 text-xs mt-2">Standard polynomial forms nested in economics:</p>
+              <ul class="text-xs text-slate-300 space-y-1">
+                <li><strong>Constant:</strong> \\(Y = 5\\)</li>
+                <li><strong>Linear:</strong> \\(Y = a_0 + a_1 X\\)</li>
+                <li><strong>Quadratic:</strong> \\(Y = a_0 + a_1 X + a_2 X^2\\) (e.g. \\(C(Q) = 75 + 10Q^2\\))</li>
+                <li><strong>Cubic:</strong> \\(Y = a_0 + a_1 X + a_2 X^2 + a_3 X^3\\) (often exhibits S-shaped total cost curves)</li>
+              </ul>
+
+              <div class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-2 text-slate-300">
+                <span class="font-bold text-amber-400">Dynamic Financial Models & High Moments (Tesla Stock Case):</span>
+                <p>Equilibrium closing prices are non-constant and follow stochastic process \\(P_t = 200 + \\epsilon_t\\), with \\(\\epsilon_t \\sim N(0, \\sigma^2)\\). Assets with low mean, high variance, negative skewness (\\(S < 0\\)), and excess kurtosis (\\(K > 3\\), fat tails) exhibit extreme tail risks (e.g. daily shifts: +1%, -15%, -10%, +2%, -4%).</p>
+                <span class="font-bold text-emerald-400">Global Exponential Growth:</span>
+                <p>World Economic Output \\(\\text{Real GDP} = f(t) = 2^t + \\epsilon\\) expands to counter population growth, contrasting with an unsustainable explosive divergent sequence \\(2, 4, 8, 16, 64, \\dots, \\infty\\).</p>
+              </div>
+            </div>
+          `
+        }
+      ],
+
+      slideExercises: [
+        {
+          id: 1,
+          chapterId: 1,
+          title: "Pricing a 10-Year Insurance Policy ($10,000/yr @ 5%)",
+          problem: "Determine the fair present market value of a life insurance policy that pays $10,000 annually at the end of each year for 10 years when the prevailing market interest rate is 5% per annum. Compare this with an infinite perpetuity.",
+          solution: `
+            <div class="space-y-2 text-xs">
+              <p><strong>Step 1: Identify Parameters:</strong> Cash flow \\(V = 10,000\\), periods \\(T = 10\\), interest rate \\(r = 0.05\\).</p>
+              <p><strong>Step 2: Apply Finite Annuity Formula:</strong></p>
+              \\[PV_{10} = \\frac{V}{r}\\left(1 - \\frac{1}{(1+r)^{10}}\\right) = \\frac{10,000}{0.05}\\left(1 - \\frac{1}{(1.05)^{10}}\\right)\\]
+              <p><strong>Step 3: Evaluate Numerically:</strong></p>
+              \\[\\frac{1}{(1.05)^{10}} = \\frac{1}{1.62889} \\approx 0.613913\\]
+              \\[PV_{10} = 200,000 \\times (1 - 0.613913) = 200,000 \\times 0.386087 \\approx \\mathbf{\\$77,217.35}\\]
+              <p class="text-slate-400"><em>(Note: In lecture slides rounded to (1 - 0.61) &approx; $78,217.35).</em></p>
+              <p><strong>Step 4: Infinite Horizon Comparison (Perpetuity):</strong></p>
+              \\[PV_\\infty = \\frac{V}{r} = \\frac{10,000}{0.05} = \\mathbf{\\$200,000}\\]
+              <p class="text-amber-400">Interpretation: Over 10 years, you capture ~39% of the infinite capitalized value.</p>
+            </div>
+          `
+        },
+        {
+          id: 2,
+          chapterId: 1,
+          title: "Approximating a 50-Year Stream ($8,000/yr @ 8%) vs. Infinity",
+          problem: "Calculate the exact PV of a 50-year annuity paying $8,000 annually at r = 8%. Contrast it with the infinite horizon approximation PV = V/r and explain why they are nearly identical.",
+          solution: `
+            <div class="space-y-2 text-xs">
+              <p><strong>Step 1: Exact 50-Year Calculation:</strong></p>
+              \\[PV_{50} = \\frac{8,000}{0.08}\\left(1 - \\frac{1}{(1.08)^{50}}\\right) = 100,000 \\times \\left(1 - \\frac{1}{46.9016}\\right) = 100,000 \\times (1 - 0.02132) = \\mathbf{\\$97,867.88}\\]
+              <p><strong>Step 2: Perpetual Stream Formula:</strong></p>
+              \\[PV_\\infty = \\frac{V}{r} = \\frac{8,000}{0.08} = \\mathbf{\\$100,000.00}\\]
+              <p><strong>Step 3: Economic Intuition:</strong></p>
+              <p>The difference is only \\(\\$2,132.12\\) (a 2.13% error). Any cash flows received beyond year 50 are discounted by \\((1.08)^{-51}\\) or smaller, rendering distant future dollars negligible in present worth. Thus, for \\(T \\ge 50\\), \\(PV_\\infty\\) serves as an effective approximation.</p>
+            </div>
+          `
+        },
+        {
+          id: 3,
+          chapterId: 1,
+          title: "Continuous vs. Discrete Compounding ($1,000 @ 12%)",
+          problem: "Compare the future value of $1,000 invested for 1 year at 12% across Annual, Semi-Annual, Monthly, Daily, and Continuous compounding.",
+          solution: `
+            <div class="space-y-2 text-xs">
+              <ul class="space-y-1 font-mono">
+                <li>Annual (n=1): \\(1,000(1 + 0.12)^1 = \\$1,120.00\\)</li>
+                <li>Semi-Annual (n=2): \\(1,000(1 + 0.06)^2 = \\$1,123.60\\)</li>
+                <li>Monthly (n=12): \\(1,000(1 + 0.01)^{12} = \\$1,126.82\\)</li>
+                <li>Daily (n=365): \\(1,000\\left(1 + \\frac{0.12}{365}\\right)^{365} = \\$1,127.47\\)</li>
+                <li>Continuous: \\(1,000 e^{0.12} = 1,000 \\times 1.127497 = \\mathbf{\\$1,127.50}\\)</li>
+              </ul>
+              <p class="text-emerald-400 mt-2">Analytical Conclusion: Compounding frequency yields strictly increasing returns with an upper bound bounded by Euler's constant \\(e\\).</p>
+            </div>
+          `
+        },
+        {
+          id: 4,
+          chapterId: 2,
+          title: "Quadratic Cost Function & Diminishing Marginal Productivity",
+          problem: "Given the firm cost function \\(C(Q) = 75 + 10Q^2\\) with \\(Q \\ge 0\\), classify its components, identify the equation type, and evaluate Marginal Cost (MC).",
+          solution: `
+            <div class="space-y-2 text-xs">
+              <p><strong>1. Classification:</strong> This is a <em>Behavioural Equation</em> describing how total cost responds to production volume.</p>
+              <p><strong>2. Component Breakdown:</strong></p>
+              <ul class="list-disc ml-5">
+                <li>\\(75\\): Constant (Fixed Cost), representing expenses at zero output.</li>
+                <li>\\(10\\): Parametric coefficient governing variable cost curvature.</li>
+                <li>\\(Q\\): Endogenous decision variable chosen by the firm.</li>
+              </ul>
+              <p><strong>3. Marginal Cost Derivation:</strong></p>
+              \\[MC = \\frac{dC}{dQ} = 20Q\\]
+              <p>Since \\(\\frac{d(MC)}{dQ} = 20 > 0\\), Marginal Cost is strictly increasing in output \\(Q\\), which reflects diminishing returns to the variable factor.</p>
+            </div>
+          `
+        }
+      ],
+
+      quizSets: [
+        {
+          setId: "set1",
+          setName: "Set 1: Core Mathematical Economics & Methodology",
+          questions: [
+            {
+              id: 1,
+              question: "What distinguishes Mathematical Economics from Econometrics?",
+              options: [
+                "A. Mathematical economics applies empirical regressions, while econometrics derives abstract proofs.",
+                "B. Mathematical economics focuses purely on theoretical modeling without measurement error concerns, while econometrics tests empirical data.",
+                "C. Econometrics deals only with macroeconomics, while mathematical economics deals only with microeconomics.",
+                "D. Mathematical economics uses only words and literary logic."
+              ],
+              answer: 1,
+              explanation: "Mathematical economics applies mathematics to purely theoretical aspects without concern for statistical measurement errors; Econometrics estimates parameters and conducts hypothesis testing using empirical data."
+            },
+            {
+              id: 2,
+              question: "Under the formal epsilon-N definition of a sequence limit, a sequence f(n) converges to L if:",
+              options: [
+                "A. For any integer N, |f(n) - L| < epsilon for all n.",
+                "B. For some epsilon > 0, there is no N bounded.",
+                "C. For any epsilon > 0, there exists an integer N such that |f(n) - L| < epsilon for all n > N.",
+                "D. f(n+1) - f(n) = 0 for all n."
+              ],
+              answer: 2,
+              explanation: "The formal definition requires that for any positive epsilon, no matter how small, there exists an index threshold N beyond which all terms stay within an epsilon-band around L."
+            },
+            {
+              id: 3,
+              question: "If applying the Ratio Test to a series yields L = lim |a_{n+1} / a_n| = 1, what can be concluded?",
+              options: [
+                "A. The series definitively diverges.",
+                "B. The series definitively converges to 1.",
+                "C. The test is inconclusive; the series may converge or diverge.",
+                "D. The series is geometric with ratio 1."
+              ],
+              answer: 2,
+              explanation: "When L = 1, the ratio test provides no decisive conclusion. For example, the telescoping series 1/(t(t+1)) has ratio limit 1 and converges, whereas the harmonic series 1/t also has ratio limit 1 but diverges."
+            }
+          ]
+        },
+        {
+          setId: "set2",
+          setName: "Set 2: Financial Compounding & Series Mechanics",
+          questions: [
+            {
+              id: 4,
+              question: "In continuous compounding, why does lim (1 + r/n)^n as n -> infinity equal e^r?",
+              options: [
+                "A. By substituting s = n/r, the term becomes [(1 + 1/s)^s]^r, where the inner limit defines Euler's constant e.",
+                "B. Because r becomes zero as n approaches infinity.",
+                "C. Due to L'Hopital's rule directly applied to 1 + r/n.",
+                "D. Because natural logarithms are independent of r."
+              ],
+              answer: 0,
+              explanation: "Setting s = n/r transforms (1 + r/n)^n into [(1 + 1/s)^s]^r. Since lim (1 + 1/s)^s = e, the expression evaluates to e^r."
+            },
+            {
+              id: 5,
+              question: "The formula for the sum of a finite geometric series s_n = sum_{t=1}^n a*rho^{t-1} is:",
+              options: [
+                "A. s_n = a * (1 - rho) / (1 - rho^n)",
+                "B. s_n = a * (1 - rho^n) / (1 - rho)",
+                "C. s_n = a / (1 - rho)",
+                "D. s_n = a * rho^n"
+              ],
+              answer: 1,
+              explanation: "Subtracting rho*s_n from s_n yields s_n(1 - rho) = a(1 - rho^n), so s_n = a(1 - rho^n) / (1 - rho)."
+            },
+            {
+              id: 6,
+              question: "What is the present value PV of a perpetual annuity paying $5,000 every year forever at an interest rate of 4%?",
+              options: [
+                "A. $125,000",
+                "B. $200,000",
+                "C. $50,000",
+                "D. $1,250,000"
+              ],
+              answer: 0,
+              explanation: "For an infinite stream (T -> infinity), PV = V / r = 5,000 / 0.04 = $125,000."
+            }
+          ]
+        },
+        {
+          setId: "set3",
+          setName: "Set 3: Economic Models, Functions & Variables",
+          questions: [
+            {
+              id: 7,
+              question: "Which of the following is classified as a Definitional Equation?",
+              options: [
+                "A. C = a + bY",
+                "B. Q_d = Q_s",
+                "C. pi = R - C",
+                "D. MC = MR"
+              ],
+              answer: 2,
+              explanation: "Profit pi = R - C is an accounting identity defining profit as total revenue minus total cost. C = a + bY is behavioural, while Q_d = Q_s and MC = MR are conditional equilibrium/optimization equations."
+            },
+            {
+              id: 8,
+              question: "In a consumer expenditure model for bread, the price of bread P is conventionally denoted as P_0 because:",
+              options: [
+                "A. The price of bread is zero.",
+                "B. It is an endogenous variable determined by the consumer.",
+                "C. It is an exogenous datum taken as given by the individual buyer.",
+                "D. It represents a non-linear parameter."
+              ],
+              answer: 2,
+              explanation: "To an individual price-taking consumer, market price is external and predetermined. The subscript '0' denotes exogeneity."
+            },
+            {
+              id: 9,
+              question: "In real estate economics, how is the Capitalization Rate (Cap Rate) defined?",
+              options: [
+                "A. Gross Rent / Total Debt",
+                "B. Net Operating Income (NOI) / Current Market Asset Value",
+                "C. Total Revenue / Marginal Cost",
+                "D. Amortization Remaining / Total Principal"
+              ],
+              answer: 1,
+              explanation: "Cap Rate = (Net Operating Income / Current Market Asset Value) * 100. It measures the unleveraged rate of return generated by a real estate asset."
+            }
+          ]
+        }
+      ],
+
+      flashcards: [
+        {
+          term: "Continuous Compounding",
+          def: "Compounding interest instantaneously throughout time (\\(n \\to \\infty\\)). A principal \\(P\\) grows to \\(V = P e^{rt}\\), and discounting is given by \\(PV = V e^{-rt}\\)."
+        },
+        {
+          term: "Telescoping Series",
+          def: "A series where successive terms cancel out intermediate values when expanded, leaving only the first and last terms: \\(\\sum_{t=1}^n (\\frac{1}{t} - \\frac{1}{t+1}) = 1 - \\frac{1}{n+1}\\)."
+        },
+        {
+          term: "Ratio Test (D'Alembert)",
+          def: "Criterion for series convergence: compute \\(L = \\lim |a_{n+1}/a_n|\\). If \\(L < 1\\), converges; if \\(L > 1\\), diverges; if \\(L = 1\\), the test is inconclusive."
+        },
+        {
+          term: "Endogenous Variable",
+          def: "A variable whose value is determined and solved internally within an economic model (e.g. market-clearing \\(P^*\\) or profit-maximizing output \\(Q^*\\))."
+        },
+        {
+          term: "Exogenous Variable",
+          def: "A variable determined by forces outside the model, taken as given data (e.g., policy interest rates, weather, or price \\(P_0\\) for an individual consumer)."
+        },
+        {
+          term: "Cap Rate (Capitalization Rate)",
+          def: "\\(\\frac{\\text{Net Operating Income (NOI)}}{\\text{Market Value}} \\times 100\\). A key real estate metric indicating unleveraged property yield."
+        }
+      ],
+
+      cheatsheet: [
+        {
+          category: "Limits & Sequences",
+          items: [
+            { label: "Formal Sequence Limit", math: "\\lim_{n \\to \\infty} f(n) = L \\iff \\forall \\epsilon > 0, \\exists N : |f(n) - L| < \\epsilon, \\forall n > N" },
+            { label: "Harmonic Convergence", math: "\\lim_{n \\to \\infty} \\frac{1}{n} = 0" },
+            { label: "Divergent Growth", math: "\\lim_{n \\to \\infty} 2^n = \\infty" }
+          ]
+        },
+        {
+          category: "Compounding & Present Value",
+          items: [
+            { label: "Discrete Compounding (n times)", math: "V = P\\left(1 + \\frac{r}{n}\\right)^{nt}" },
+            { label: "Continuous Compounding Limit", math: "\\lim_{n \\to \\infty} \\left(1 + \\frac{r}{n}\\right)^n = e^r \\implies V = P e^{rt}" },
+            { label: "Continuous Discounting (PV)", math: "PV_t = V e^{-rt}" }
+          ]
+        },
+        {
+          category: "Series & Annuities",
+          items: [
+            { label: "Geometric Series Sum", math: "s_n = a\\frac{1 - \\rho^n}{1 - \\rho} \\quad (\\text{converges to } \\frac{a}{1-\\rho} \\text{ if } |\\rho| < 1)" },
+            { label: "Finite Annuity Present Value", math: "PV_T = \\frac{V}{r}\\left[1 - \\frac{1}{(1+r)^T}\\right]" },
+            { label: "Perpetuity (Infinite Stream)", math: "PV_\\infty = \\lim_{T \\to \\infty} PV_T = \\frac{V}{r}" }
+          ]
+        },
+        {
+          category: "Economic Model Equations",
+          items: [
+            { label: "Definitional Equation (Identity)", math: "\\pi \\equiv R - C" },
+            { label: "Behavioural Function", math: "C = a + bY, \\quad a > 0, \\; 0 < b \\le 1" },
+            { label: "Equilibrium Condition", math: "Q_d = Q_s \\quad \\text{or} \\quad I = S" },
+            { label: "Optimization Condition", math: "MC = MR \\quad \\text{or} \\quad \\frac{MU_1}{P_1} = \\frac{MU_2}{P_2}" }
+          ]
+        }
+      ]
+    };
+
+    // --- 2. STATE CONTROLLERS ---
+    let currentChapterId = 1;
+    let currentQuizSetIndex = 0;
+    let userQuizAnswers = {};
+    let currentCardIndex = 0;
+    let isCardFlipped = false;
+    let graphMode = 'pv'; // 'pv' or 'cost'
+
+    // --- 3. TAB CONTROLLER ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-indigo-500', 'text-indigo-400');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('border-indigo-500', 'text-indigo-400');
+        activeBtn.classList.remove('border-transparent', 'text-slate-400');
+      }
+
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+      const activePane = document.getElementById(`pane-${tabId}`);
+      if (activePane) activePane.classList.remove('hidden');
+
+      if (tabId === 'grapher') {
+        renderGraph();
+      }
+    }
+
+    // --- 4. RENDER STUDY GUIDE ---
+    function renderStudyGuide() {
+      const chapter = courseData.chapters.find(c => c.id === currentChapterId);
+      const container = document.getElementById('studyGuideContent');
+      if (chapter && container) {
+        container.innerHTML = chapter.studyGuide;
+        renderMathInElement(container, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\[', right: '\\]', display: true},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+    }
+
+    // --- 5. RENDER SLIDE EXERCISES ---
+    function renderExercises() {
+      const container = document.getElementById('exerciseList');
+      if (!container) return;
+      container.innerHTML = courseData.slideExercises.map(ex => `
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center justify-between mb-3 border-b border-slate-700 pb-2">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="text-indigo-400">#${ex.id}</span> ${ex.title}
+            </h3>
+            <span class="text-xs px-2.5 py-1 bg-slate-900 text-indigo-300 rounded-full border border-slate-700 font-mono">Lecture ${ex.chapterId}</span>
+          </div>
+          <p class="text-slate-300 text-sm mb-4 bg-slate-900/50 p-3.5 rounded-xl border border-slate-800">
+            <strong>Problem Statement:</strong> ${ex.problem}
+          </p>
+          <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">Step-by-Step Analytical Proof:</h4>
+            ${ex.solution}
+          </div>
+        </div>
+      `).join('');
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+
+    // --- 6. RENDER QUIZ ENGINE ---
+    function populateQuizSetsDropdown() {
+      const select = document.getElementById('quizSetSelect');
+      if (!select) return;
+      select.innerHTML = courseData.quizSets.map((s, idx) => `
+        <option value="${idx}">${s.setName}</option>
+      `).join('');
+      loadQuizSet(0);
+    }
+
+    function loadQuizSet(setIdx) {
+      currentQuizSetIndex = parseInt(setIdx);
+      userQuizAnswers = {};
+      const quiz = courseData.quizSets[currentQuizSetIndex];
+      const container = document.getElementById('quizContainer');
+      document.getElementById('quizTotal').innerText = quiz.questions.length;
+      document.getElementById('quizScore').innerText = "0";
+
+      container.innerHTML = quiz.questions.map((q, qIdx) => `
+        <div class="p-5 bg-slate-900 rounded-xl border border-slate-700/80 space-y-3">
+          <p class="text-sm font-semibold text-slate-100">${qIdx + 1}. ${q.question}</p>
+          <div class="space-y-2">
+            ${q.options.map((opt, optIdx) => `
+              <button onclick="handleOptionSelect(${qIdx},${optIdx})" id="qBtn-${qIdx}-${optIdx}" 
+                      class="quiz-opt-btn w-full text-left p-3 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 transition">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="explanation-${qIdx}" class="hidden p-3 rounded-lg text-xs mt-2"></div>
+        </div>
+      `).join('');
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+
+    function handleOptionSelect(qIdx, selectedOptIdx) {
+      const quiz = courseData.quizSets[currentQuizSetIndex];
+      const q = quiz.questions[qIdx];
+      if (userQuizAnswers[qIdx] !== undefined) return;
+
+      userQuizAnswers[qIdx] = selectedOptIdx;
+      const isCorrect = selectedOptIdx === q.answer;
+
+      const selectedBtn = document.getElementById(`qBtn-${qIdx}-${selectedOptIdx}`);
+      const correctBtn = document.getElementById(`qBtn-${qIdx}-${q.answer}`);
+
+      if (isCorrect) {
+        selectedBtn.classList.remove('bg-slate-800');
+        selectedBtn.classList.add('bg-emerald-600/30', 'border-emerald-500', 'text-emerald-200');
+      } else {
+        selectedBtn.classList.remove('bg-slate-800');
+        selectedBtn.classList.add('bg-rose-600/30', 'border-rose-500', 'text-rose-200');
+        correctBtn.classList.add('bg-emerald-600/20', 'border-emerald-500', 'text-emerald-300');
+      }
+
+      const expBox = document.getElementById(`explanation-${qIdx}`);
+      expBox.classList.remove('hidden');
+      if (isCorrect) {
+        expBox.className = "p-3 rounded-lg text-xs mt-2 bg-emerald-950/60 border border-emerald-800 text-emerald-200";
+        expBox.innerHTML = `<strong>✓ Correct:</strong> ${q.explanation}`;
+      } else {
+        expBox.className = "p-3 rounded-lg text-xs mt-2 bg-rose-950/60 border border-rose-800 text-rose-200";
+        expBox.innerHTML = `<strong>✗ Incorrect:</strong> ${q.explanation}`;
+      }
+      renderMathInElement(expBox);
+
+      let score = 0;
+      Object.keys(userQuizAnswers).forEach(idx => {
+        if (userQuizAnswers[idx] === quiz.questions[idx].answer) score++;
+      });
+      document.getElementById('quizScore').innerText = score;
+    }
+
+    function nextQuizSet() {
+      let nextIdx = (currentQuizSetIndex + 1) % courseData.quizSets.length;
+      document.getElementById('quizSetSelect').value = nextIdx;
+      loadQuizSet(nextIdx);
+    }
+
+    function resetCurrentQuiz() {
+      loadQuizSet(currentQuizSetIndex);
+    }
+
+    // --- 7. FLASHCARD ENGINE ---
+    function updateFlashcardUI() {
+      const deck = courseData.flashcards;
+      document.getElementById('cardIndex').innerText = currentCardIndex + 1;
+      document.getElementById('cardTotal').innerText = deck.length;
+      const card = deck[currentCardIndex];
+      document.getElementById('cardTerm').innerText = card.term;
+      document.getElementById('cardDef').innerHTML = card.def;
+
+      const inner = document.getElementById('flashcardInner');
+      isCardFlipped = false;
+      inner.classList.remove('rotate-y-180');
+
+      renderMathInElement(document.getElementById('cardDef'), {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+
+    function flipCard() {
+      isCardFlipped = !isCardFlipped;
+      const inner = document.getElementById('flashcardInner');
+      if (isCardFlipped) inner.classList.add('rotate-y-180');
+      else inner.classList.remove('rotate-y-180');
+    }
+
+    function nextCard() {
+      currentCardIndex = (currentCardIndex + 1) % courseData.flashcards.length;
+      updateFlashcardUI();
+    }
+
+    function prevCard() {
+      currentCardIndex = (currentCardIndex - 1 + courseData.flashcards.length) % courseData.flashcards.length;
+      updateFlashcardUI();
+    }
+
+    function shuffleFlashcards() {
+      courseData.flashcards.sort(() => Math.random() - 0.5);
+      currentCardIndex = 0;
+      updateFlashcardUI();
+    }
+
+    // --- 8. CHEAT SHEET RENDER ---
+    function renderCheatsheet() {
+      const container = document.getElementById('cheatsheetContent');
+      if (!container) return;
+      container.innerHTML = courseData.cheatsheet.map(sec => `
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-400 mb-3 border-b border-slate-700 pb-2">
+            ${sec.category}
+          </h3>
+          <div class="space-y-3">
+            ${sec.items.map(it => `
+              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                <span class="text-xs font-semibold text-slate-300 block mb-1">${it.label}</span>
+                <div class="text-xs font-mono text-emerald-300 overflow-x-auto">${it.math}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+
+    // --- 9. INTERACTIVE CANVAS GRAPHER ---
+    const canvas = document.getElementById('mathCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function toggleGraphMode(mode) {
+      graphMode = mode;
+      document.getElementById('btnGraphPV').className = mode === 'pv' ? 'px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition' : 'px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 transition';
+      document.getElementById('btnGraphCost').className = mode === 'cost' ? 'px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition' : 'px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 text-slate-300 transition';
+      
+      document.getElementById('pvControls').classList.toggle('hidden', mode !== 'pv');
+      document.getElementById('costControls').classList.toggle('hidden', mode !== 'cost');
+      renderGraph();
+    }
+
+    function renderGraph() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      const pad = 50;
+
+      // Draw Grid & Axes
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, pad);
+      ctx.lineTo(pad, h - pad);
+      ctx.lineTo(w - pad, h - pad);
+      ctx.stroke();
+
+      if (graphMode === 'pv') {
+        const V = parseFloat(document.getElementById('sliderV').value);
+        const r = parseFloat(document.getElementById('sliderR').value);
+        const T = parseInt(document.getElementById('sliderT').value);
+
+        document.getElementById('dispV').innerText = `$${V.toLocaleString()}`;
+        document.getElementById('dispR').innerText = `${(r * 100).toFixed(1)}%`;
+        document.getElementById('dispT').innerText = `${T} yrs`;
+
+        const pvInf = V / r;
+        const pvT = (V / r) * (1 - Math.pow(1 + r, -T));
+        const ratio = (pvT / pvInf) * 100;
+
+        document.getElementById('calcPV_T').innerText = `$${pvT.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('calcPV_Inf').innerText = `$${pvInf.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('calcRatio').innerText = `${ratio.toFixed(2)}%`;
+
+        document.getElementById('graphLegend').innerHTML = `
+          <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-emerald-400"></div><span class="text-slate-300 font-medium">Cumulative PV_t</span></div>
+          <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-indigo-400 border-dashed"></div><span class="text-slate-300 font-medium">Perpetuity Limit PV_&infin; ($${Math.round(pvInf).toLocaleString()})</span></div>
+          <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div><span class="text-slate-300 font-medium">Maturity Horizon T (${T} yrs)</span></div>
+        `;
+
+        const yMax = pvInf * 1.15;
+        const yInfCoord = (h - pad) - (pvInf / yMax) * (h - 2 * pad);
+        
+        // Asymptote Line
+        ctx.strokeStyle = '#818cf8';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pad, yInfCoord);
+        ctx.lineTo(w - pad, yInfCoord);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Label Asymptote
+        ctx.fillStyle = '#818cf8';
+        ctx.font = '11px monospace';
+        ctx.fillText(`PV_inf = $${Math.round(pvInf).toLocaleString()}`, w - pad - 140, yInfCoord - 6);
+
+        // Draw Cumulative PV curve from t=1 to 100
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let t = 1; t <= 100; t++) {
+          const val = (V / r) * (1 - Math.pow(1 + r, -t));
+          const x = pad + (t / 100) * (w - 2 * pad);
+          const y = (h - pad) - (val / yMax) * (h - 2 * pad);
+          if (t === 1) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Draw Current Marker Dot
+        const currX = pad + (T / 100) * (w - 2 * pad);
+        const currY = (h - pad) - (pvT / yMax) * (h - 2 * pad);
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.arc(currX, currY, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // T marker on axis
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px monospace';
+        ctx.fillText(`t=0`, pad - 10, h - pad + 15);
+        ctx.fillText(`t=${T}`, currX - 10, h - pad + 15);
+        ctx.fillText(`t=100 yrs`, w - pad - 25, h - pad + 15);
+
+      } else {
+        // Cost mode C(Q) = a0 + a2*Q^2
+        const a0 = parseFloat(document.getElementById('sliderFC').value);
+        const a2 = parseFloat(document.getElementById('sliderCurv').value);
+        document.getElementById('dispFC').innerText = a0;
+        document.getElementById('dispCurv').innerText = a2;
+
+        document.getElementById('graphLegend').innerHTML = `
+          <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-indigo-400"></div><span class="text-slate-300 font-medium">Total Cost C(Q)</span></div>
+          <div class="flex items-center gap-2"><div class="w-3 h-0.5 bg-rose-400"></div><span class="text-slate-300 font-medium">Marginal Cost MC(Q) = 2a₂Q</span></div>
+        `;
+
+        const maxQ = 10;
+        const maxCost = a0 + a2 * Math.pow(maxQ, 2);
+
+        // Draw C(Q)
+        ctx.strokeStyle = '#818cf8';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for (let q = 0; q <= maxQ; q += 0.2) {
+          const cost = a0 + a2 * Math.pow(q, 2);
+          const x = pad + (q / maxQ) * (w - 2 * pad);
+          const y = (h - pad) - (cost / maxCost) * (h - 2 * pad);
+          if (q === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Draw MC(Q)
+        ctx.strokeStyle = '#f87171';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let q = 0; q <= maxQ; q += 0.2) {
+          const mc = 2 * a2 * q;
+          const x = pad + (q / maxQ) * (w - 2 * pad);
+          const y = (h - pad) - (mc / maxCost) * (h - 2 * pad);
+          if (q === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px monospace';
+        ctx.fillText(`Q=0`, pad - 10, h - pad + 15);
+        ctx.fillText(`Output Quantity (Q)`, w / 2 - 40, h - pad + 30);
+      }
+    }
+
+    function resetGraphParams() {
+      document.getElementById('sliderV').value = 8000;
+      document.getElementById('sliderR').value = 0.08;
+      document.getElementById('sliderT').value = 50;
+      document.getElementById('sliderFC').value = 75;
+      document.getElementById('sliderCurv').value = 10;
+      renderGraph();
+    }
+
+    // Bind Graph Sliders
+    ['sliderV', 'sliderR', 'sliderT', 'sliderFC', 'sliderCurv'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', renderGraph);
+    });
+
+    // --- 10. GLOBAL SEARCH & FILTER ---
+    document.getElementById('globalSearch').addEventListener('input', function(e) {
+      const term = e.target.value.toLowerCase().trim();
+      if (!term) return;
+      switchTab('studyGuide');
+      const container = document.getElementById('studyGuideContent');
+      // Highlight matching sections visually
+      const sections = container.querySelectorAll('div, p, li');
+      sections.forEach(sec => {
+        if (sec.innerText.toLowerCase().includes(term)) {
+          sec.classList.add('bg-indigo-950/30', 'rounded-lg');
+        } else {
+          sec.classList.remove('bg-indigo-950/30');
+        }
+      });
+    });
+
+    // Chapter Switcher listener
+    document.getElementById('chapterSelect').addEventListener('change', function(e) {
+      currentChapterId = parseInt(e.target.value);
+      renderStudyGuide();
+    });
+
+    // --- INITIALIZE SUITE ON LOAD ---
+    window.addEventListener('DOMContentLoaded', () => {
+      renderStudyGuide();
+      renderExercises();
+      populateQuizSetsDropdown();
+      updateFlashcardUI();
+      renderCheatsheet();
+      renderGraph();
+    });
+  </script>
+</body>
+</html>
